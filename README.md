@@ -1,2 +1,2 @@
 # scratchpads
-Pythonic and JavaScript approaches to various algorithmic problems.
+Python and JavaScript approaches to various algorithmic problems.
