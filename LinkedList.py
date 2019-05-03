@@ -1,5 +1,6 @@
 """
-Add three functions to the LinkedList.
+Add three functions to the LinkedList.  
+
 1. "get_position" returns the element at a certain position.
 
 2. The "insert" function will add an element to a particular
