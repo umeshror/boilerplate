@@ -1,4 +1,9 @@
+"""
 
+Designed on Principle of LIFO
+Last in first out
+
+"""
 class Element(object):
     def __init__(self, value):
         self.value = value
@@ -30,6 +35,18 @@ class LinkedList(object):
             self.head = self.head.next
         return element_to_delete
 
+    def printlist(self):
+        """
+        Print all values present in Elements of LinkedList
+        :return:
+        """
+        current_element = self.head
+        items = []
+        while current_element:
+            items.append(current_element.value)
+            current_element = current_element.next
+        return items
+
 class Stack(object):
     def __init__(self, top=None):
         self.ll = LinkedList(top)
@@ -40,6 +57,9 @@ class Stack(object):
     def pop(self):
         return self.ll.delete_first()
 
+    def printList(self):
+        return self.ll.printlist()
+
 
 # Set up some Elements
 e1 = Element(1)
@@ -49,7 +69,6 @@ e4 = Element(4)
 
 # Start setting up a Stack
 stack = Stack(e1)
-
 # Test stack functionality
 stack.push(e2)
 stack.push(e3)

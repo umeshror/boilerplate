@@ -1,3 +1,9 @@
+"""
+
+Designed on Principle of FIFO
+First in first out
+
+"""
 class Queue:
     def __init__(self, head=None):
         self.storage = [head]
