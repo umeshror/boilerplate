@@ -6,6 +6,10 @@ In Bubble sort the thumb rule is check any 2 values in array and sort them in in
 Now we need to do it for all elements . If length of array is "n" then for n times
 Now we need to do this for all the elements "n"
 So Time complexity becomes n*n i.e O(nˆ2)
+
+(n-1) comaprision * (n-1) times
+
+spcae complexity; O(1) as no space required for extra array or temp array
  
 """
 
