@@ -1,14 +1,15 @@
 def binarySearch(arr, value_to_find):
     low = 0
     high = len(arr) - 1
+    
     while low <= high:
-        mid = (low + high) / 2
-        if arr[mid] == value_to_find:
-            return mid
-        elif arr[mid] < value_to_find:
-            low = mid + 1
+        middle = (low + high) / 2
+        if arr[middle] == value_to_find:
+            return middle
+        elif arr[middle] < value_to_find:
+            low = middle + 1
         else:
-            high = mid - 1
+            high = middle - 1
     return -1
 
 
