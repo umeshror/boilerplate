@@ -31,6 +31,7 @@ class LinkedList(object):
         2. Add its next to Element object
         :param new_element: <Element>
         :return: None
+        Linear time complexity
         """
 
         # first element will be self.head
