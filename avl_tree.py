@@ -69,3 +69,105 @@ class Node(object):
             return self.left_child.get_min()
 
 
+class BalancedTree(object):
+    def __init__(self):
+        self.root_node = None
+
+    def insert(self, data):
+        if not self.root_node:
+            parent_node = Node(data, None)
+            self.root_node = parent_node
+        else:
+            parent_node = self.root_node.insert(data, self.root_node)
+
+        self.rebalance_tree(parent_node)
+
+    def rebalance_tree(self, parent_node):
+        """
+              [height] (value)
+
+
+                [2](20)
+                  /    \
+        [0] (10)       (40) [1]
+                        /  \
+                [0] (30)   (50) [0]
+
+         mod of  | height(left sub tree) - height (right sub tree) | <= 1
+            mod of
+
+        :param parent_node:
+        :return:
+        """
+        self.set_balance(parent_node)
+        if parent_node.balance < -1:
+            if self.height(parent_node.left_child.left_child) >= self.height(parent_node.left_child.right_child)
+                parent_node = self.rotate_right(parent_node)
+            else:
+                parent_node = self.rotate_left_right(parent_node)
+        elif parent_node.balance > 1
+            if self.height(parent_node.right_child.right_child) >= self.height(parent_node.right_child.left_child):
+                parent_node = self.rotate_left(parent_node)
+            else:
+                parent_node = self.rotate_right_left(parent_node)
+
+        if parent_node.parent_node is not None:
+            self.rebalance_tree(parent_node.parent_node)
+        else:
+            self.root_node = parent_node
+
+
+    def rotate_left_right(self, node):
+        node.left_child = self.rotate_left(node)
+        return self.rotate_right(node)
+
+    def rotate_right_left(self, node):
+        node.right_child = self.rotate_right(node)
+        return self.rotate_left(node)
+
+    def rotate_left(self, node):
+        temp = node.right_child
+        temp.parent_node = node.parent_node
+
+        node.right_child = temp.left_child
+
+        if node.right_child is not None:
+            if temp.parent_node.right_child == node:
+                temp.parent_node.right_child = temp
+            else:
+                temp.parent_node.left_child = temp
+        self.set_balance(node)
+        self.set_balance(temp)
+
+        return temp
+
+    def rotate_right(self, node):
+        temp = node.left_child
+        temp.parent_node = node.parent_node
+
+        node.left_child = temp.right_child
+
+        if node.left_child is not None:
+            if temp.parent_node.left_child == node:
+                temp.parent_node.left_child = temp
+            else:
+                temp.parent_node.right_child = temp
+        self.set_balance(node)
+        self.set_balance(temp)
+
+        return temp
+
+
+    def set_balance(self, node):
+
+        node.balance = (self.height(node.left_child) - self.height(node.right_child))
+
+    def height(self, node):
+        if not node:
+            # no node present returns default value -1
+            return -1
+        else:
+            # 1 + max_height
+            # e.g 1 + max(-1, -1) = 0
+            # e.g 1 + max(0, -1) = 2
+            return 1 + max(self.height(node.left_child), self.height(node.right_child))
