@@ -82,6 +82,9 @@ class BalancedTree(object):
 
         self.rebalance_tree(parent_node)
 
+    def traverse_in_order(self):
+        self.root_node.traverse_in_order()
+
     def rebalance_tree(self, parent_node):
         """
               [height] (value)
@@ -100,12 +103,13 @@ class BalancedTree(object):
         :return:
         """
         self.set_balance(parent_node)
+
         if parent_node.balance < -1:
-            if self.height(parent_node.left_child.left_child) >= self.height(parent_node.left_child.right_child)
+            if self.height(parent_node.left_child.left_child) >= self.height(parent_node.left_child.right_child):
                 parent_node = self.rotate_right(parent_node)
             else:
                 parent_node = self.rotate_left_right(parent_node)
-        elif parent_node.balance > 1
+        elif parent_node.balance > 1:
             if self.height(parent_node.right_child.right_child) >= self.height(parent_node.right_child.left_child):
                 parent_node = self.rotate_left(parent_node)
             else:
@@ -118,11 +122,14 @@ class BalancedTree(object):
 
 
     def rotate_left_right(self, node):
-        node.left_child = self.rotate_left(node)
+        """
+        First rotate left then right
+        """
+        node.left_child = self.rotate_left(node.left_child)
         return self.rotate_right(node)
 
     def rotate_right_left(self, node):
-        node.right_child = self.rotate_right(node)
+        node.right_child = self.rotate_right(node.right_child)
         return self.rotate_left(node)
 
     def rotate_left(self, node):
@@ -148,10 +155,17 @@ class BalancedTree(object):
         node.left_child = temp.right_child
 
         if node.left_child is not None:
-            if temp.parent_node.left_child == node:
-                temp.parent_node.left_child = temp
-            else:
+            temp.left_child.parent_node = node
+
+        temp.right_child = node
+        node.parent_node = temp
+
+        if temp.parent_node is not None:
+            if temp.parent_node.right_child == node:
                 temp.parent_node.right_child = temp
+            else:
+                temp.parent_node.left_child = temp
+
         self.set_balance(node)
         self.set_balance(temp)
 
@@ -159,8 +173,7 @@ class BalancedTree(object):
 
 
     def set_balance(self, node):
-
-        node.balance = (self.height(node.left_child) - self.height(node.right_child))
+        node.balance = (self.height(node.right_child) - self.height(node.left_child))
 
     def height(self, node):
         if not node:
@@ -171,3 +184,12 @@ class BalancedTree(object):
             # e.g 1 + max(-1, -1) = 0
             # e.g 1 + max(0, -1) = 2
             return 1 + max(self.height(node.left_child), self.height(node.right_child))
+
+
+if __name__ == '__main__':
+    tree = BalancedTree()
+    tree.insert(4)
+    tree.insert(6)
+    tree.insert(5)
+
+    tree.traverse_in_order()
