@@ -30,7 +30,7 @@ def partition(arr, low, high):
 
 def quickSort(arr, low, high):
     if low < high:
-        # pi is partitioning index, arr[p] is now
+        # pi is partitioning index, arr[pk] is now
         # at right place
         pi = partition(arr, low, high)
 
