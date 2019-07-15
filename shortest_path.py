@@ -29,16 +29,15 @@ def find_shortest_route(mat, x_index, y_index, routes_found, visited_mat):
             route_right = 1 + find_shortest_route(mat, x_index, y_index + 1, routes_found, visited_mat)
 
 
-    # move left
-    if (mat[x_index][y_index - 1] == 0):
-        if (visited_mat[x_index][y_index - 1] == False):
-            route_left = 1 + find_shortest_route(mat, x_index, y_index - 1, routes_found, visited_mat)
-
-
     # move down
     if (mat[x_index + 1][y_index] == 0):
         if (visited_mat[x_index + 1][y_index] == False):
             route_down = 1 + find_shortest_route(mat, x_index + 1, y_index, routes_found, visited_mat)
+
+    # move left
+    if (mat[x_index][y_index - 1] == 0):
+        if (visited_mat[x_index][y_index - 1] == False):
+            route_left = 1 + find_shortest_route(mat, x_index, y_index - 1, routes_found, visited_mat)
 
 
     routes_found[x_index][y_index] = min(route_up, route_right, route_left, route_down)
