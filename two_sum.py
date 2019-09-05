@@ -21,6 +21,8 @@ def two_sum(self, nums, target):
         try:
             return look_for[value], ind
         except KeyError:
+            # Key(remaining value to fulfill target) is not present in dict 
+            # so add in dict
             look_for[target - value] = ind
 
 arr = [2, 7, 1, 15]
