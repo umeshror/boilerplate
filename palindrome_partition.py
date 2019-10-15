@@ -1,62 +1,76 @@
 """
 Given a string, a partitioning of the string is a palindrome partitioning if every substring
 of the partition is a palindrome. For example, “aba|b|bbabb|a|b|aba” 
-is a palindrome partitioning of “ababbbabbababa”. 
+is a palindrome partitioning of “aababbbabbababa”. 
 Determine the fewest cuts needed for palindrome partitioning of a given string. 
-For example, minimum 3 cuts are needed for “ababbbabbababa”. The three cuts are “a|babbbab|b|ababa”. 
+For example, minimum 3 cuts are needed for “aababbbabbababa”. The three cuts are “aa|babbbab|b|ababa”. 
 If a string is palindrome, then minimum 0 cuts are needed. If a string of length n containing all 
 different characters, then minimum n-1 cuts are needed.
 
 """
-
 # Dynamic Programming Solution
 
-def minSubStrPartion(str): 
-	
-  n = len(str) 
-	
-	# C[i][j] = Minimum number of cuts needed for palindrome partitioning of substring str[i..j] 
-	C = [[0 for i in range(n)] 
-			for i in range(n)] 
-      
-	# P[i][j] = true if substring str[i..j] is palindrome, else false
-	P = [[False for i in range(n)] 
-				for i in range(n)] 
+def minSubStrPartion(word):
+    word_size = len(word)
 
-	j = 0
-	k = 0
-	L = 0
-	
-	# C[i][j] is 0 if P[i][j] is true 
-	for i in range(n): 
-		P[i][i] = True; 
-		C[i][i] = 0; 
-    
-	for L in range(2, n + 1): 
-		
-		for i in range(n - L + 1): 
-			j = i + L - 1 # Set ending index 
-			
-			if L == 2: 
-				P[i][j] = (str[i] == str[j]) 
-			else: 
-				P[i][j] = ((str[i] == str[j]) and
-							P[i + 1][j - 1]) 
-							
-			# IF str[i..j] is palindrome, 
-			# then C[i][j] is 0 
-			if P[i][j] == True: 
-				C[i][j] = 0
-			else: 
-      
-				C[i][j] = 100000000
-				for k in range(i, j): 
-					C[i][j] = min (C[i][j], C[i][k] +
-								C[k + 1][j] + 1) 
-                
-	return C[0][n - 1] 
+    # cuts[i][j] = Minimum number of cuts needed for palindrome partitioning of substring str[i..j]
+    cuts = [[0 for i in range(word_size)]
+            for i in range(word_size)]
 
-str = "ababbbabbababa"
-print ('Min cuts needed for Palindrome Partitioning is', 
-									minSubStrPartion(str)) 
-				
+    """
+        a  a  b  a  b  b
+      a 0  0  0  0  0  0
+      a 0  0  0  0  0  0
+      b 0  0  0  0  0  0
+      a 0  0  0  0  0  0
+      b 0  0  0  0  0  0
+      b 0  0  0  0  0  0
+    """
+
+    # palindromes[i][j] = true if substring str[i..j] is palindrome, else false
+    palindromes = [[False for i in range(word_size)]
+                   for i in range(word_size)]
+
+
+    # cuts[i][j] is 0 if palindromes[i][j] is true
+    for i in range(word_size):
+        palindromes[i][i] = True # every letter is palindrome
+        cuts[i][i] = 0 # 0 cuts if every letter is palindrome
+    """
+    palindromes
+        a  a  b  a  b  b
+      a T  F  F  F  F  F
+      a F  T  F  F  F  F
+      b F  F  T  F  F  F
+      a F  F  F  T  F  F
+      b F  F  F  F  T  F
+      b F  F  F  F  F  T
+    """
+    for L in range(2, word_size + 1):
+
+        for i in range(word_size - L + 1):
+            j = i + L - 1  # Set ending index
+
+            if L == 2:
+                palindromes[i][j] = (word[i] == word[j])
+            else:
+                palindromes[i][j] = ((word[i] == word[j]) and
+                                     palindromes[i + 1][j - 1])
+
+            # IF word[i..j] is palindrome,
+            # then cuts[i][j] is 0
+            if palindromes[i][j]: # if True
+                cuts[i][j] = 0
+            else:
+
+                cuts[i][j] = 100000000
+                for k in range(i, j):
+                    cuts[i][j] = min(cuts[i][j], cuts[i][k] +
+                                     cuts[k + 1][j] + 1)
+
+    return cuts[0][word_size - 1]
+
+
+word = "aababbbabbababa"
+# Min cuts needed for Palindrome Partitioning is
+print(minSubStrPartion(word))
