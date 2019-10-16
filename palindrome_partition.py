@@ -46,12 +46,12 @@ def minSubStrPartion(word):
       b F  F  F  F  T  F
       b F  F  F  F  F  T
     """
-    for L in range(2, word_size + 1):
+    for substr_size in range(2, word_size + 1):
 
-        for i in range(word_size - L + 1):
-            j = i + L - 1  # Set ending index
-
-            if L == 2:
+        for i in range(word_size - substr_size + 1):
+            j = i + substr_size - 1  # Set ending index
+            
+            if substr_size == 2:
                 palindromes[i][j] = (word[i] == word[j])
             else:
                 palindromes[i][j] = ((word[i] == word[j]) and
