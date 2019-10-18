@@ -71,6 +71,7 @@ def minSubStrPartion(word):
     return cuts[0][word_size - 1]
 
 
+
 word = "aababbbabbababa"
 # Min cuts needed for Palindrome Partitioning is
 print(minSubStrPartion(word))
